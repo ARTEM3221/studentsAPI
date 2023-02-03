@@ -12,17 +12,17 @@
  
   <div id="app">
     <form @submit.prevent="addStudent" v-if="!editingStudent">
-      <input type="text" v-model="newStudent.fullName" placeholder="Full Name">
+      <input type="text" v-model="newStudent.name" placeholder="Full Name">
       <input type="text" v-model="newStudent.group" placeholder="Group">
-      <input type="text" v-model="newStudent.yearOfBirth" placeholder="Year of Birth">
-      <input type="checkbox" v-model="newStudent.passed" placeholder="Passed">
+      <input type="text" v-model="newStudent.mark" placeholder="Mark">
+      <input type="checkbox" v-model="newStudent.isDonePr" placeholder="Is Done Pr">
       <button>Add</button>
     </form>
     <form @submit.prevent="updateStudent" v-if="editingStudent">
-      <input type="text" v-model="editingStudent.fullName" placeholder="Full Name">
+      <input type="text" v-model="editingStudent.name" placeholder="Full Name">
       <input type="text" v-model="editingStudent.group" placeholder="Group">
-      <input type="text" v-model="editingStudent.yearOfBirth" placeholder="Year of Birth">
-      <input type="checkbox" v-model="editingStudent.passed" placeholder="Passed">
+      <input type="text" v-model="editingStudent.mark" placeholder="Mark">
+      <input type="checkbox" v-model="editingStudent.isDonePr" placeholder="Is Done Pr">
       <button>Save</button>
       <button @click="cancelEditing">Cancel</button>
     </form>
@@ -31,20 +31,20 @@
         <tr>
           <th>Full Name</th>
           <th>Group</th>
-          <th>Year of Birth</th>
-          <th>Passed</th>
+          <th>Mark</th>
+          <th>Is Done Pr</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="student in students" :key="student.id" :class="{ highlighted: student.passed }">
-          <td>{{ student.fullName }}</td>
+        <tr v-for="student in students" :key="student._id" :class="{ highlighted: student.isDonePr }">
+          <td>{{ student.name }}</td>
           <td>{{ student.group }}</td>
-          <td>{{ student.yearOfBirth }}</td>
-          <td>{{ student.passed }}</td>
+          <td>{{ student.mark }}</td>
+          <td>{{ student.isDonePr }}</td>
           <td>
             <a @click="editStudent(student)">Edit</a>
-            <a @click="deleteStudent(student.id)">Delete</a>
+            <a @click="deleteStudent(student._id)">Delete</a>
           </td>
         </tr>
       </tbody>
@@ -52,7 +52,9 @@
   </div>
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/vue"></script>
   <script src="main.js"></script>
+  <script src="https://unpkg.com/vue"></script>
 
 </body>
 </html>
