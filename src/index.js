@@ -1,36 +1,45 @@
-
+import Vue from 'vue'
+import axios from 'axios'
 var app = new Vue({
   el: '#app',
   data() {
     return {
-      searchTerm: '',
-      students: [
-        { id: 1, fullName: 'John Doe', group: 'A', yearOfBirth: 2000, passed: true },
-        { id: 2, fullName: 'Jane Doe', group: 'B', yearOfBirth: 2002, passed: false },
-        { id: 3, fullName: 'Jim Smith', group: 'A', yearOfBirth: 1999, passed: true }
-      ],
+      students: [],
       newStudent: {
         fullName: '',
         group: '',
         yearOfBirth: '',
         passed: false
-      }
+      },
+      editingStudent: null
     }
   },
-  computed: {
-    filteredStudents() {
-      return this.students.filter(student => student.fullName.toLowerCase().includes(this.searchTerm.toLowerCase()))
-    }
+  mounted() {
+    this.getStudents()
   },
   methods: {
-    deleteStudent(id) {
-      const index = this.students.findIndex(student => student.id === id)
-      this.students.splice(index, 1)
+    async getStudents() {
+      const response = await axios.get('http://34.82.81.113:3000/students')
+      this.students = response.data
     },
-    addStudent() {
-      const newId = this.students.length ? this.students[this.students.length - 1].id + 1 : 1
-      this.students.push({ ...this.newStudent, id: newId })
-      this.newStudent = { fullName: '', group: '', yearOfBirth: '', passed: false }
-    }
-  }
+    async deleteStudent(id) {
+      await axios.delete(`http://34.82.81.113:3000/students/${id}`) 
+      this.getStudents() 
+    }, 
+    async addStudent() { 
+      const response = await axios.post('http://34.82.81.113:3000/students', this.newStudent) 
+      this.students.push(response.data) 
+      this.newStudent = { fullName: '', group: '', yearOfBirth: '', passed: false } 
+    }, 
+    async updateStudent() { await axios.put(`http://34.82.81.113:3000/students/${this.editingStudent.id}`, this.editingStudent)
+      this.getStudents()
+      this.editingStudent = null
+      },
+      editStudent(student) {
+      this.editingStudent = student
+      },
+      cancelEditing() {
+      this.editingStudent = null
+      }
+      }
 });

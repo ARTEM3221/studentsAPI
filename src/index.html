@@ -11,59 +11,48 @@
 <body>
  
   <div id="app">
-    <input type="text" v-model="searchTerm" placeholder="Search by last name">
+    <form @submit.prevent="addStudent" v-if="!editingStudent">
+      <input type="text" v-model="newStudent.fullName" placeholder="Full Name">
+      <input type="text" v-model="newStudent.group" placeholder="Group">
+      <input type="text" v-model="newStudent.yearOfBirth" placeholder="Year of Birth">
+      <input type="checkbox" v-model="newStudent.passed" placeholder="Passed">
+      <button>Add</button>
+    </form>
+    <form @submit.prevent="updateStudent" v-if="editingStudent">
+      <input type="text" v-model="editingStudent.fullName" placeholder="Full Name">
+      <input type="text" v-model="editingStudent.group" placeholder="Group">
+      <input type="text" v-model="editingStudent.yearOfBirth" placeholder="Year of Birth">
+      <input type="checkbox" v-model="editingStudent.passed" placeholder="Passed">
+      <button>Save</button>
+      <button @click="cancelEditing">Cancel</button>
+    </form>
     <table>
       <thead>
         <tr>
           <th>Full Name</th>
           <th>Group</th>
           <th>Year of Birth</th>
-          <th>Status</th>
+          <th>Passed</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(student, index) in filteredStudents" :key="student.id">
+        <tr v-for="student in students" :key="student.id" :class="{ highlighted: student.passed }">
           <td>{{ student.fullName }}</td>
           <td>{{ student.group }}</td>
           <td>{{ student.yearOfBirth }}</td>
-          <td :class="{ 'highlighted': student.passed }">
-            <span v-if="student.passed">Passed</span>
-            <span v-else>Failed</span>
+          <td>{{ student.passed }}</td>
+          <td>
+            <a @click="editStudent(student)">Edit</a>
+            <a @click="deleteStudent(student.id)">Delete</a>
           </td>
-          <td><a href="#" @click.prevent="deleteStudent(student.id)">Delete</a></td>
         </tr>
       </tbody>
     </table>
-    <hr>
-    <h3>Add New Student</h3>
-    <form>
-      <div>
-        <label for="fullName">Full Name:</label>
-        <input type="text" id="fullName" v-model="newStudent.fullName">
-      </div>
-      <div>
-        <label for="group">Group:</label>
-        <input type="text" id="group" v-model="newStudent.group">
-      </div>
-      <div>
-        <label for="yearOfBirth">Year of Birth:</label>
-        <input type="number" id="yearOfBirth" v-model="newStudent.yearOfBirth">
-      </div>
-      <div>
-        <label for="passed">Status:</label>
-        <input type="checkbox" id="passed" v-model="newStudent.passed"> Passed
-      </div>
-      <button @click.prevent="addStudent">Add Student</button>
-    </form>
   </div>
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="index.js"></script>
+  <script src="main.js"></script>
 
 </body>
 </html>
