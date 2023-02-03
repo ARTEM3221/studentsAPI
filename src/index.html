@@ -5,12 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="index.css">
-  
   <title>Document</title>
 </head>
 <body>
  
   <div id="app">
+    <input type="text" v-model="searchTerm" placeholder="Search by last name">
     <form @submit.prevent="addStudent" v-if="!editingStudent">
       <input type="text" v-model="newStudent.name" placeholder="Full Name">
       <input type="text" v-model="newStudent.group" placeholder="Group">
@@ -51,7 +51,8 @@
     </table>
   </div>
   
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="main.js"></script>
   
   
 
